@@ -9,6 +9,10 @@ const {
   updateOneImage,
 } = require("../controllers/media.controller");
 
+const { restrict } = require("../middlewares/restrict");
+
+router.use(restrict);
+
 router.post("/image", multerMiddleware.image, postImage);
 router.get("/image", getAllImage);
 router.get("/image/:id", getOneImage);

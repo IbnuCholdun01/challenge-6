@@ -10,12 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model image {
-  id    String  @id
+model image{
+  id  Int @id @default(autoincrement())
   title String
   description String
   imageUrl String
-  createdAt DateTime
-  updatedAt DateTime
-  deletedAt DateTime
+  createdAt DateTime @default(now())
 }

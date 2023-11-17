@@ -21,7 +21,6 @@ const register = async (req, res) => {
         name,
         email,
         password: hashedPassword,
-        createdAt: new Date(),
       },
       select: {
         id: true,

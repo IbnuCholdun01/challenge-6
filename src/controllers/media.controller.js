@@ -4,40 +4,45 @@ const imagekit = require("../lib/imagekit");
 const prisma = new PrismaClient();
 
 const postImage = async (req, res) => {
-  try {
-    if (!req.file) {
-      return templateResponse(false, "File not found", null);
-    }
-
-    const fileBuffer = req.file.buffer.toString("base64");
-    const uploadFileToImageKit = await imagekit.upload({
-      fileName: req.file.originalname,
-      file: fileBuffer,
-    });
-
-    const imageUrl = uploadFileToImageKit.url;
-    const { title, description } = req.body;
-
-    const data = await prisma.image.create({
-      data: {
-        title,
-        description,
-        imageUrl,
-      },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        imageUrl: true,
-      },
-    });
-
-    return res.status(201).json(templateResponse(true, "Success", data));
-  } catch (error) {
-    return res
-      .status(500)
-      .json(templateResponse(false, "Internal server error", null));
+  // try {
+  if (!req.file) {
+    return templateResponse(false, "File not found", null);
   }
+
+  const fileBuffer = req.file.buffer.toString("base64");
+  const uploadFileToImageKit = await imagekit.upload({
+    fileName: req.file.originalname,
+    file: fileBuffer,
+  });
+
+  const imageUrl = uploadFileToImageKit.url;
+  const { title, description } = req.body;
+
+  const data = await prisma.image.create({
+    data: {
+      title,
+      description,
+      imageUrl,
+      user: {
+        connect: {
+          id: req.user.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      imageUrl: true,
+    },
+  });
+
+  return res.status(201).json(templateResponse(true, "Success", data));
+  // } catch (error) {
+  //   return res
+  //     .status(500)
+  //     .json(templateResponse(false, "Internal server error", null));
+  // }
 };
 
 const getAllImage = async (req, res) => {

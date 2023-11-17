@@ -15,9 +15,13 @@ const swaggerOptions = {
     info: {
       title: "Challenge 6",
       version: "1.0.0",
-      description: "Challenge 6",
+      description:
+        "This is Api documentation for Challenge 6 you can use this API link [https://challenge-6-production-2f58.up.railway.app](https://challenge-6-production-2f58.up.railway.app) for testing",
     },
     servers: [
+      {
+        url: "https://challenge-6-production-2f58.up.railway.app/api/v1",
+      },
       {
         url: "http://localhost:3000/api/v1",
       },
